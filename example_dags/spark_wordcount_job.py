@@ -73,7 +73,7 @@ submit = SparkKubernetesOperator(
 )
 
 sensor = SparkKubernetesSensor(
-    task_id='spark_pi_monitor',
+    task_id='spark_wordcount_monitor',
     namespace='{{dag_run.conf.get("namespace", "mlops")}}',
     application_name="{{ task_instance.xcom_pull(task_ids='spark_wordcount_submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_in_cluster",
