@@ -17,7 +17,7 @@ spec:
   type: Python
   pythonVersion: "3"
   mode: cluster
-  image: "gcr.io/spark-operator/spark-py:v3.1.1"
+  image: gcr.io/mapr-252711/spark-3.1.2:202202141308P150
   imagePullPolicy: Always
   arguments: "dtap://TenantStorage/data/wordcount.txt"
   mainApplicationFile: "local:///opt/mapr/spark/spark-3.1.2/examples/src/main/python/wordcount.py"
@@ -30,14 +30,17 @@ spec:
     onSubmissionFailureRetryInterval: 20
   driver:
     cores: 1
-    coreLimit: "1200m"
+    coreLimit: "1000m"
     memory: "512m"
     labels:
-      version: 3.1.1
-    serviceAccount: spark
+      version: 3.1.2
+    # Note: You do not need to specify a serviceAccount
+    #       it will be auto-generated referencing the pre-existing "hpe-<namespace>"
+    serviceAccount: hpe-{{dag_run.conf.get("namespace", "mlops")}}
   executor:
     cores: 1
+    coreLimit: "1000m"
     instances: 1
     memory: "512m"
     labels:
-      version: 3.1.1
+      version: 3.1.2
